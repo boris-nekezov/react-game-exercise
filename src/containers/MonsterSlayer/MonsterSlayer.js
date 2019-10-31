@@ -37,7 +37,6 @@ const MonsterSlayer = () => {
         const playerNewTurn = generateTurn(true, 'playerHits', playerDamage);
         const monsterNewTurn = generateTurn(false, 'monsterHits', monsterDamage);
 
-        // const updatedTurns = ;
         const updatedPlayerHP = playerHealthPoints - monsterDamage;
         const updatedMonsterHP = monsterHealthPoints - playerDamage;
 
@@ -49,13 +48,11 @@ const MonsterSlayer = () => {
         setPlayerHealthPoints(updatedPlayerHP);
         setMonsterHealthPoints(updatedMonsterHP);
         setTurns([playerNewTurn, monsterNewTurn, ...turns]);
-
     }
 
     const heal = () => {
         if (playerHealthPoints <= 90) {
             const monsterDamage = calculateDamage(...statsBigDamage);
-
             const playerNewTurn = generateTurn(true, 'playerHeals', statsHealSize);
             const monsterNewTurn = generateTurn(false, 'monsterHits', monsterDamage);
 
