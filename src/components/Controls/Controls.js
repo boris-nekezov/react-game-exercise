@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import classes from './Controls.module.css';
-import STATS from '../../utils/stats';
+import STATS from '../../utils/STATS';
 
-const { damage, bigDamage } = STATS;
+const { statsDamage, statsBigDamage } = STATS;
 
 class Controls extends Component {
     render() {
@@ -20,11 +20,11 @@ class Controls extends Component {
                     {/* atack */}
                     <button 
                         className={`${Button} ${Attack}`}
-                        onClick={() => attacked(...damage)}>ATTACK</button> 
+                        onClick={() => attacked(...statsDamage)}>ATTACK</button> 
                     {/* special attack */}
                     <button 
                         className={`${Button} ${SpecialAttack}`}
-                        onClick={() => attacked(...bigDamage)}>SPECIAL ATTACK</button>
+                        onClick={() => attacked(...statsBigDamage)}>SPECIAL ATTACK</button>
                     {/* heal */}
                     <button 
                         className={`${Button} ${Heal}`}

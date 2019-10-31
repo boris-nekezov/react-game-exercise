@@ -1,11 +1,11 @@
 const STATS = {
-    gameIsRunning: false,
-    playerHealthPoints: 100,
-    monsterHealthPoints: 100,
-    turns: [],
-    healSize: 10,
-    damage: [3, 10],
-    bigDamage: [5, 12]
+    statsGameIsRunning: false,
+    statsPlayerHealthPoints: 100,
+    statsMonsterHealthPoints: 100,
+    statsTurns: [],
+    statsHealSize: 10,
+    statsDamage: [3, 10],
+    statsBigDamage: [5, 12]
 }
 
 export default STATS;

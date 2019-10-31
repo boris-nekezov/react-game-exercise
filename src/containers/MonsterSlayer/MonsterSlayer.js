@@ -1,42 +1,38 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Players from '../../components/Players/Players';
 import Controls from '../../components/Controls/Controls';
 import Log from '../../components/Log/Log';
 // utils
-import STATS from '../../utils/stats';
+import STATS from '../../utils/STATS';
 import calculateDamage from '../../utils/calculateDamage';
 import generateTurn from '../../utils/generateTurn';
 
 const {
-    gameIsRunning,
-    playerHealthPoints,
-    monsterHealthPoints,
-    turns,
-    healSize,
-    bigDamage
+    statsGameIsRunning,
+    statsPlayerHealthPoints,
+    statsMonsterHealthPoints,
+    statsTurns,
+    statsHealSize,
+    statsBigDamage
 } = STATS;
 
-class MonsterSlayer extends Component {
-    state = {
-        gameIsRunning,
-        playerHealthPoints,
-        monsterHealthPoints,
-        turns
+const MonsterSlayer = () => {
+
+    const [gameIsRunning, setGameIsRunning] = useState(statsGameIsRunning); 
+    const [playerHealthPoints, setPlayerHealthPoints] = useState(statsPlayerHealthPoints);
+    const [monsterHealthPoints, setMonsterHealthPoints] = useState(statsMonsterHealthPoints);
+    const [turns, setTurns] = useState(statsTurns);
+
+    const startGameHandler = () => {
+        setGameIsRunning(!statsGameIsRunning);
+        setPlayerHealthPoints(statsPlayerHealthPoints);
+        setMonsterHealthPoints(statsMonsterHealthPoints);
+        setTurns(statsTurns);
     }
 
-    startGameHandler = () => {
-        this.setState({
-            gameIsRunning: !gameIsRunning,
-            playerHealthPoints,
-            monsterHealthPoints,
-            turns
-        });
-    }
-
-    attackHandler = (min, max) => {
-        const { turns, monsterHealthPoints, playerHealthPoints } = this.state;
+    const attackHandler = (min, max) => {
         const playerDamage = calculateDamage(min, max);
-        const monsterDamage = calculateDamage(...bigDamage);
+        const monsterDamage = calculateDamage(...statsBigDamage);
         
         const playerNewTurn = generateTurn(true, 'playerHits', playerDamage);
         const monsterNewTurn = generateTurn(false, 'monsterHits', monsterDamage);
@@ -46,79 +42,70 @@ class MonsterSlayer extends Component {
         const updatedMonsterHP = monsterHealthPoints - playerDamage;
 
         // if checkwin is true then we return so we don't get to next line where monster attacks
-        if(this.checkWin(updatedPlayerHP, updatedMonsterHP)) {
+        if(checkWin(updatedPlayerHP, updatedMonsterHP)) {
             return;
         }
 
-        this.setState({
-            playerHealthPoints: updatedPlayerHP,
-            monsterHealthPoints: updatedMonsterHP,
-            turns: [playerNewTurn, monsterNewTurn, ...turns]
-        });
+        setPlayerHealthPoints(updatedPlayerHP);
+        setMonsterHealthPoints(updatedMonsterHP);
+        setTurns([playerNewTurn, monsterNewTurn, ...turns]);
+
     }
 
-    heal = () => {
-        let { turns, playerHealthPoints } = this.state;
+    const heal = () => {
         if (playerHealthPoints <= 90) {
-            const monsterDamage = calculateDamage(...bigDamage);
+            const monsterDamage = calculateDamage(...statsBigDamage);
 
-            const playerNewTurn = generateTurn(true, 'playerHeals', healSize);
+            const playerNewTurn = generateTurn(true, 'playerHeals', statsHealSize);
             const monsterNewTurn = generateTurn(false, 'monsterHits', monsterDamage);
 
-            const updatedTurns = [playerNewTurn, monsterNewTurn, ...turns];
-
-            this.setState({ 
-                playerHealthPoints: (playerHealthPoints += healSize) - monsterDamage,
-                turns: updatedTurns
-            });   
+            setPlayerHealthPoints((playerHealthPoints + statsHealSize) - monsterDamage);
+            setTurns([playerNewTurn, monsterNewTurn, ...turns]);
         }
     }
 
-    giveUp = () => {
-        this.setState({ gameIsRunning: false });
+    const giveUp = () => {
+        setGameIsRunning(false);
     }
 
-    checkWin = (playerHP, monsterHP) => {
+    const checkWin = (playerHP, monsterHP) => {
             // if player wins
             if (monsterHP <= 0) {
                 if ( window.confirm('You won! New Game?') ) {
-                    this.startGameHandler();
+                    startGameHandler();
                 } else {
-                    this.setState({gameIsRunning: false});
+                    setGameIsRunning(false);
                 }
                 return true; // there is win 
             // id monster wins
             } else if (playerHP <= 0) {
                 if ( window.confirm('You Lost! New Game?')) {
-                    this.startGameHandler();
+                    startGameHandler();
                 } else {
-                    this.setState({gameIsRunning: false});
+                    setGameIsRunning(false);
                 }
                 return true; // there is win
             }
             return false; // no win
     } 
 
-    render () {
-        const { playerHealthPoints, monsterHealthPoints, gameIsRunning, turns } = this.state;
-        return (
-            <div>
-                <Players 
-                    playerHP={playerHealthPoints}
-                    monsterHP={monsterHealthPoints} />
-                <Controls 
-                    gameStarted={gameIsRunning} 
-                    start={this.startGameHandler}
-                    attacked={this.attackHandler}
-                    specialAttacked={this.specialAttackHandler} 
-                    healed={this.heal}
-                    gaveUp={this.giveUp} /> 
-                {/* if there are turns display log */}
-                {turns.length > 0 ? <Log turnsLog={turns}/> : null}
+    return (
+        <div>
+            <Players 
+                playerHP={playerHealthPoints}
+                monsterHP={monsterHealthPoints} />
+            <Controls 
+                gameStarted={gameIsRunning} 
+                start={startGameHandler}
+                attacked={attackHandler}
+                specialAttacked={attackHandler} 
+                healed={heal}
+                gaveUp={giveUp} /> 
+            {/* if there are turns display log */}
+            {turns.length > 0 ? <Log turnsLog={turns}/> : null}
 
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default MonsterSlayer;
