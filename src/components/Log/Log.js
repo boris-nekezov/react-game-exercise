@@ -1,9 +1,8 @@
 import React from 'react';
 import classes from './Log.module.css';
 
-const Log = (props) => {
+const Log = ({ turnsLog }) => {
     const { Log, PlayerTurn, MonsterTurn } = classes;
-    const { turnsLog } = props;
 
     return (
         <section className={`row ${Log}`}>

@@ -4,9 +4,9 @@ import STATS from '../../utils/STATS';
 
 const { statsDamage, statsBigDamage } = STATS;
 
-const Controls = (props) => {
+const Controls = ({ start, attacked, healed, gaveUp, gameStarted }) => {
     const { Button, StartGame, Attack, SpecialAttack, Heal, GiveUp, Controls } = classes;
-    const { start, attacked, healed, gaveUp, gameStarted } = props;
+
     let gameControls = (
         <button 
             className={`${Button} ${StartGame}`}
