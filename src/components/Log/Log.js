@@ -1,25 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classes from './Log.module.css';
 
-class Log extends Component {
-    render() {
-        const { Log, PlayerTurn, MonsterTurn } = classes;
-        const { turnsLog } = this.props;
+const Log = (props) => {
+    const { Log, PlayerTurn, MonsterTurn } = classes;
+    const { turnsLog } = props;
 
-        return (
-            <section className={`row ${Log}`}>
-                <div className="small-12 columns">
-                    <ul>
-                        {turnsLog.map((turn, index) => (
-                            <li key={index} className={turn.isPlayer ? PlayerTurn : MonsterTurn}>
-                                {turn.text}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
-        );
-    };
+    return (
+        <section className={`row ${Log}`}>
+            <div className="small-12 columns">
+                <ul>
+                    {turnsLog.map((turn, index) => (
+                        <li key={index} className={turn.isPlayer ? PlayerTurn : MonsterTurn}>
+                            {turn.text}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
 }
 
 export default Log;
