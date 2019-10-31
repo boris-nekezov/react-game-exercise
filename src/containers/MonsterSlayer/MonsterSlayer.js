@@ -65,7 +65,10 @@ const MonsterSlayer = () => {
     }
 
     const giveUp = () => {
-        setGameIsRunning(false);
+        setGameIsRunning(statsGameIsRunning);
+        setPlayerHealthPoints(statsPlayerHealthPoints);
+        setMonsterHealthPoints(statsMonsterHealthPoints);
+        setTurns(statsTurns);
     }
 
     const checkWin = (playerHP, monsterHP) => {
