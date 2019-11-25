@@ -7,39 +7,36 @@ const { statsDamage, statsBigDamage } = STATS;
 const Controls = ({ start, attacked, healed, gaveUp, gameStarted }) => {
     const { Button, StartGame, Attack, SpecialAttack, Heal, GiveUp, Controls } = classes;
 
-    let gameControls = (
-        <button 
-            className={`${Button} ${StartGame}`}
-            onClick={start}>START NEW GAME</button>
-    );
-    // if gameStarted is true start game markup
-    if (gameStarted){
-        gameControls = (
-            <div className="small-12 columns">
-                {/* atack */}
-                <button 
-                    className={`${Button} ${Attack}`}
-                    onClick={() => attacked(...statsDamage)}>ATTACK</button> 
-                {/* special attack */}
-                <button 
-                    className={`${Button} ${SpecialAttack}`}
-                    onClick={() => attacked(...statsBigDamage)}>SPECIAL ATTACK</button>
-                {/* heal */}
-                <button 
-                    className={`${Button} ${Heal}`}
-                    onClick={healed}>HEAL</button> 
-                {/* give up */}
-                <button 
-                    className={`${Button} ${GiveUp}`}
-                    onClick={gaveUp}>GIVE UP</button>
-            </div>
-        );
-    } 
- 
+  
+
     return (
         <section className={`row ${Controls}`}>
-            {gameControls}
+            {gameStarted ? 
+                <div className="small-12 columns">
+                    {/* attack */}
+                    <button 
+                        className={`${Button} ${Attack}`}
+                        onClick={() => attacked(...statsDamage)}>ATTACK</button> 
+                    {/* special attack */}
+                    <button 
+                        className={`${Button} ${SpecialAttack}`}
+                        onClick={() => attacked(...statsBigDamage)}>SPECIAL ATTACK</button>
+                    {/* heal */}
+                    <button 
+                        className={`${Button} ${Heal}`}
+                        onClick={healed}>HEAL</button> 
+                    {/* give up */}
+                    <button 
+                        className={`${Button} ${GiveUp}`}
+                        onClick={gaveUp}>GIVE UP</button>
+                </div>
+            :
+                <button 
+                    className={`${Button} ${StartGame}`}
+                    onClick={start}>START NEW GAME</button>
+            }
         </section>
+    
     );
 }
 
