@@ -1,8 +1,6 @@
 import React from 'react';
 import classes from './Button.module.css';
 
-
-
 const Btn = ({btnType, children, ...config}) => {
     const { Button } = classes;
     return (
