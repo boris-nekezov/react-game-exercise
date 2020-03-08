@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Controls.module.css';
-import STATS from '../../utils/STATS';
+import STATS from '../../utils/stats';
 import Btn from '../UI/Btn/Btn';
 
 const { statsDamage, statsBigDamage } = STATS;

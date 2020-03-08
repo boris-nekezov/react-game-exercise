@@ -3,7 +3,7 @@ import Players from '../../components/Players/Players';
 import Controls from '../../components/Controls/Controls';
 import Log from '../../components/Log/Log';
 // utils
-import STATS from '../../utils/STATS';
+import STATS from '../../utils/stats';
 import calculateDamage from '../../utils/calculateDamage';
 import generateTurn from '../../utils/generateTurn';
 
